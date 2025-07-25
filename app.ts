@@ -1,3 +1,4 @@
+#!/usr/bin/env bun
 import { createArchive, encryptArchive } from './src/archive'
 import { uploadFile } from './src/googledrive'
 

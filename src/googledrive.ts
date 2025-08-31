@@ -39,6 +39,12 @@ async function authorize(): Promise<OAuth2Client> {
         token = await fetchAccessToken(oauth2Client, tokenPath)
     }
     oauth2Client.setCredentials(typeof token === 'string' ? JSON.parse(token) : token)
+
+    // token is expired ?
+    if (new Date(oauth2Client.credentials.expiry_date ?? 0) < new Date(/* now */)) {
+        token = await fetchAccessToken(oauth2Client, tokenPath)
+        oauth2Client.setCredentials(token)
+    }
     return oauth2Client
     
 }

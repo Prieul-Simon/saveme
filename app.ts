@@ -8,7 +8,7 @@ console.info('Archive created\n')
 
 console.info('Encryption of archive...')
 const result = await encryptArchive(archiveName)
-const filePath = `${import.meta .env.ARCHIVE_DEST}${result.name}`
+const filePath = `${import.meta.env.ARCHIVE_DEST}${result.name}`
 console.info('Archive encrypted: %s\n', filePath)
 
 console.info('Uploading archive...')

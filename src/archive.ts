@@ -9,6 +9,7 @@ export async function createArchive(): Promise<{ name: string }> {
     const dtStr = currentDateTimeReadableString()
     const outName = `${assertDefined(import.meta.env.ARCHIVE_NAME_PREFIX)}${dtStr}.tar.gz`
     const cmds = [
+        'sudo',
         'tar',
         'czf',
         `${outPath}${outName}`,

@@ -13,12 +13,17 @@ export async function createArchive(): Promise<{ name: string }> {
         'czf',
         `${outPath}${outName}`,
         '--verbose',
-        `--directory=./`,
-        assertDefined(import.meta.env.ARCHIVE_INPUT_DIR),
     ]
+    const inPaths: string[] = assertDefined(import.meta.env.ARCHIVE_INPUT_DIR)
+        .split(',')
+    for (const archiveInputDir of inPaths) {
+        cmds.push(`--directory=./`, archiveInputDir)
+    }
     console.info('Will spawn cmds: %o', cmds)
+    const cwd = assertDefined(import.meta.env.ARCHIVE_INPUT_PARENT_DIR)
+    console.info('...with command working directory of the process: %s', cwd)
     const proc = Bun.spawn(cmds, {
-        cwd: assertDefined(import.meta.env.ARCHIVE_INPUT_PARENT_DIR),
+        cwd,
         stdout: 'inherit',
         onExit: (_, exitCode) => console.info('tar subprocess exited with code %d', exitCode)
     })
